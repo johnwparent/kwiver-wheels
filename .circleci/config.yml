@@ -12,7 +12,7 @@ jobs:
           command: |
             docker version
       - run:
-          name: ""
+          name: "Build Docker Image"
           command: |
             chmod +x build_docker.sh
             ./build_docker.sh

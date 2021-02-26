@@ -1,3 +1,3 @@
 FROM ubuntu:xenial
 
-RUN echo $CWD
+RUN echo $PWD

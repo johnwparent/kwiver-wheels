@@ -12,3 +12,4 @@ docker build --force-rm -t kwiver:wheel --output type=local,dest=wheels -f Docke
 
 mkdir pages
 cp --preserve=timestamps wheels/*.whl pages/.
+python3 mkpypa.py

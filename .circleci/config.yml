@@ -8,13 +8,13 @@ jobs:
     steps:
       - checkout
       - run:
-          name: "Test cwd"
-          command: |
-            echo $CIRCLE_WORKING_DIRECTORY
-      - run:
           name: "Test Docker"
           command: |
             docker version
+      - run:
+          name: ""
+          command: |
+            ./build_docker.sh
 
 workflows:
   # Orchestrate or schedule a set of jobs

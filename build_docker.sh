@@ -6,10 +6,9 @@ set -e
 
 docker pull quay.io/pypa/manylinux2014_x86_64:latest
 docker images
-
-docker build --force-rm -t kwiver:wheel .
 mkdir -p wheels
 rm -f wheels/*.whl
-# docker run kwiver:wheel
+docker build --force-rm -t kwiver:wheel --output type=local,dest=wheels -f Dockerfile.wheel .
+
 mkdir pages
-# cp --preserve=timestamps wheels/*.whl pages/.
+cp --preserve=timestamps wheels/*.whl pages/.

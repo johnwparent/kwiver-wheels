@@ -82,7 +82,3 @@ RUN cd /kwiver/python \
 
 # Entrypoint for pypi upload - we need to avoid this for nightly builds
 # ENTRYPOINT twine upload --repository testpypi /kwiver/python/dist/kwiver*-manylinux2014_x86_64.whl
-
-FROM scratch AS export
-
-COPY --from=build /kwiver/python/dist /

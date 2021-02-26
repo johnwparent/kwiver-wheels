@@ -1,4 +1,4 @@
-FROM quay.io/pypa/manylinux2014_x86_64
+FROM quay.io/pypa/manylinux2014_x86_64 as build
 
 ARG PYTHON_VERSION=3.7.0
 ARG CMAKE_URL=https://github.com/Kitware/CMake/releases/download/v3.16.2/cmake-3.16.2.tar.gz
@@ -82,3 +82,7 @@ RUN cd /kwiver/python \
 
 # Entrypoint for pypi upload - we need to avoid this for nightly builds
 # ENTRYPOINT twine upload --repository testpypi /kwiver/python/dist/kwiver*-manylinux2014_x86_64.whl
+
+FROM scratch AS export
+
+COPY --from=build /kwiver/python/dist /

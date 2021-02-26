@@ -15,7 +15,8 @@ RUN yum install -y vim \
                    openssl-devel \
                    libcurl-devel \
                    tree \
-                   git
+                   git \
+                   libffi-devel
 
 RUN wget -O cmake-3.16.2.tar.gz ${CMAKE_URL} \
     && tar xvzf cmake-3.16.2.tar.gz \

@@ -8,7 +8,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: "Test Docker"
+          name: "Test Docker Install"
           command: |
             docker version
       - run:
@@ -16,15 +16,27 @@ jobs:
           command: |
             chmod +x build_docker.sh
             ./build_docker.sh
+      - store_artifacts:
+          path: ~/kwiver_wheels/pages
+      - run:
+          name: Install pv
+          command: |
+            sudo apt-get update
+            sudo apt-get install -y pv
+      - run:
+          name: Archive docker image
+          command: docker save kwiver:wheels | pv > liw_docker.tar
+      - store_artifacts:
+          path: ./liw_docker.tar
       - run:
           name: "Checkout Pages"
           command: |
             git checkout -f -B pages --track origin/pages
-      # - run:
-      #     name: "Upload Wheels"
-      #     command: |
-      #       git add *.whl && git commit && git push -f
-      # - store_artifacts
+      - run:
+          name: "Upload Wheels"
+          command: |
+            cd pages
+            git add *.whl && git add index.html && git commit -m"Upload Wheel" && git push -f
 
 workflows:
   # Orchestrate or schedule a set of jobs

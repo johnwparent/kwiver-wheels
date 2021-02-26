@@ -12,4 +12,4 @@ mkdir -p wheels
 rm -f wheels/*.whl
 docker run kwiver:wheel
 mkdir pages
-cp --preserve=timestamps wheels/*.whl pages/.
+# cp --preserve=timestamps wheels/*.whl pages/.

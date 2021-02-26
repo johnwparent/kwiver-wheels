@@ -80,4 +80,7 @@ RUN cd /kwiver/python \
 
 # ENV TWINE_REPOSITORY_URL=${REPOSITORY_URL}
 
-ENTRYPOINT twine upload --repository testpypi /kwiver/python/dist/kwiver*-manylinux2014_x86_64.whl
+# Entrypoint for pypi upload - we need to avoid this for nightly builds
+# ENTRYPOINT twine upload --repository testpypi /kwiver/python/dist/kwiver*-manylinux2014_x86_64.whl
+
+

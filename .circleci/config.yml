@@ -16,6 +16,15 @@ jobs:
           command: |
             chmod +x build_docker.sh
             ./build_docker.sh
+      - run:
+          name: "Checkout Pages"
+          command: |
+            git checkout -f -B pages --track origin/pages
+      # - run:
+      #     name: "Upload Wheels"
+      #     command: |
+      #       git add *.whl && git commit && git push -f
+      # - store_artifacts
 
 workflows:
   # Orchestrate or schedule a set of jobs

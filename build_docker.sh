@@ -10,6 +10,6 @@ docker images
 docker build --force-rm -t kwiver:wheel .
 mkdir -p wheels
 rm -f wheels/*.whl
-docker run
+docker run kwiver:wheel
 mkdir pages
 cp --preserve=timestamps wheels/*.whl pages/.

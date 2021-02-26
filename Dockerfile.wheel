@@ -60,7 +60,7 @@ RUN git clone https://github.com/Kitware/fletch.git \
             -Dfletch_ENABLE_cppzmq:BOOL=ON \
     && make
 
-COPY . /kwiver
+RUN git clone https://github.com/Kitware/kwiver.git
 
 RUN pip3 install --upgrade pip \
     && hash -r \
@@ -82,5 +82,3 @@ RUN cd /kwiver/python \
 
 # Entrypoint for pypi upload - we need to avoid this for nightly builds
 # ENTRYPOINT twine upload --repository testpypi /kwiver/python/dist/kwiver*-manylinux2014_x86_64.whl
-
-

@@ -53,7 +53,7 @@ RUN git clone https://github.com/Kitware/fletch.git \
             -DProtobuf_SELECT_VERSION:STRING=3.4.1 \
             -Dfletch_ENABLE_pybind11:BOOL=ON \
             -Dfletch_ENABLE_YAMLcpp:BOOL=ON \
-            -Dfletch_ENABLE_ZLib:BOOL=OFF \
+            -Dfletch_ENABLE_ZLib:BOOL=ON \
             -Dfletch_ENABLE_libjpeg-turbo:BOOL=ON \
             -Dfletch_ENABLE_libtiff:BOOL=ON \
             -Dfletch_ENABLE_log4cplus:BOOL=ON \

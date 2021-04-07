@@ -2,7 +2,7 @@ import os, sys, glob
 
 pypa_index_template = """
 <html>
-<head><title>Kwiver Wheel</title></head>
+<head><title>Kwiver ManyLinux Wheel</title></head>
 <body>
 <h1>Kwiver Wheel</h1>
 <pre>

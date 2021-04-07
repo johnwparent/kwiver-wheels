@@ -1,0 +1,20 @@
+FROM fletch_py37
+ARG WHEEL_PY_VERSION=cp37-cp37m
+
+RUN git clone -b dev/fix-skbuild --single-branch https://github.com/johnwparent/kwiver.git
+
+RUN pip3 install --upgrade pip \
+    && hash -r \
+    && pip3 install --no-cache-dir scikit-build \
+    && pip3 install --no-cache-dir cmake twine\
+    && cd /kwiver/python \
+    && python3 setup.py bdist_wheel -- -Dfletch_DIR=/fletch/build/release -DCMAKE_INSTALL_PREFIX=/kwiver/python/_skbuild/linux-x86_64-3.7/cmake-install -- -j$(nproc) \
+    && tree -a
+
+RUN pip install auditwheel
+
+RUN cd /kwiver/python \
+    && export VERSION=$(cat VERSION) \
+    && cd dist \
+    && export WHEEL_PREFIX=kwiver-${VERSION}-${WHEEL_PY_VERSION} \
+    && auditwheel repair --plat manylinux2014_x86_64 ${WHEEL_PREFIX}-linux_x86_64.whl -w .

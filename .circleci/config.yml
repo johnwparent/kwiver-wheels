@@ -55,7 +55,6 @@ jobs:
           command: |
             chmod +x run_docker.sh
             ./run_docker.sh
-
       - store_artifacts:
           path: ~/kwiver_wheels/pages
       - run:

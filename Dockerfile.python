@@ -1,0 +1,37 @@
+FROM quay.io/pypa/manylinux2014_x86_64 as build
+
+ARG PYTHON_VERSION=3.7.0
+ARG CMAKE_URL=https://github.com/Kitware/CMake/releases/download/v3.16.2/cmake-3.16.2.tar.gz
+ARG WHEEL_PY_VERSION=cp37-cp37m
+ARG REPOSITORY_URL=https://upload.pypi.org/legacy/
+ENV LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+ENV PATH=/usr/local/lib:$PATH
+
+RUN yum install -y vim \
+                   wget \
+                   make \
+                   gcc \
+                   gcc-c++ \
+                   openssl \
+                   curl \
+                   openssl-devel \
+                   libcurl-devel \
+                   tree \
+                   git \
+                   libffi-devel
+
+RUN wget -O cmake-3.16.2.tar.gz ${CMAKE_URL} \
+    && tar xvzf cmake-3.16.2.tar.gz \
+	&& cd cmake-3.16.2 \
+	&& ./bootstrap \
+	&& make -j$(nproc)\
+	&& make install
+
+RUN wget -O python-${PYTHON_VERSION}.tgz \
+            https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tgz \
+	&& tar xvzf python-${PYTHON_VERSION}.tgz \
+	&& cd Python-${PYTHON_VERSION} \
+	&& ./configure --enable-shared\
+	&& make -j$(nproc) \
+	&& make install
+

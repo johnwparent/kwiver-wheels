@@ -19,7 +19,7 @@ jobs:
       - run:
           name: "Check Fletch update"
           command: |
-            git ls-remote https://github.com/kitware/fletch.git | head -1 | sed "s/HEAD//" > checkFletch
+            git ls-remote https://github.com/kitware/fletch.git | awk "/HEAD/ {print \$1}" > checkFletch
 
       # Validate vs cached check
       - restore_cache:

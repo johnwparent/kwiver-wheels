@@ -24,7 +24,7 @@ jobs:
       # Validate vs cached check
       - restore_cache:
           keys:
-            - fletch-{{checksum checkFletch}}
+            - fletch-{{ checksum "checkFletch" }}
 
       # Build fletch image
       - run:
@@ -37,7 +37,7 @@ jobs:
           command: docker save fletch_py37:latest | pv > fpyi_docker.tar
 
       - save_cache:
-          key: fletch-{{checksum checkFletch}}
+          key: fletch-{{ checksum "checkFletch" }}
           paths:
             - ./fpyi_docker.tar
 
@@ -48,7 +48,7 @@ jobs:
       - run:
           name: "Build Kwiver Wheel Image"
           command: |
-            docker build --force-rm -t "$DOCKERHUB_USERNAME"/kwiver_py -f Dockerfile.kwiver .
+            docker build --force-rm -t "$DOCKERHUB_USERNAME"/kwiver_py37 -f Dockerfile.kwiver .
 
       - run:
           name: "Gather Kwiver Wheel"

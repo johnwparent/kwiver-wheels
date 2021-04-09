@@ -26,16 +26,16 @@ jobs:
           architecture: 'x64'
 
       - name: "Install pv"
-          run: |
+        run: |
             sudo apt-get update
             sudo apt-get install -y pv
       - name: "Setup Docker"
-          run: |
+        run: |
             docker pull quay.io/pypa/manylinux2014_x86_64:latest
 
       # Get fletch current HEAD commit SHA
       - name: "Check Fletch update"
-          run: |
+        run: |
             git ls-remote https://github.com/kitware/fletch.git | awk "/HEAD/ {print \$1}" > checkFletch
 
       # Validate vs cached check
@@ -46,12 +46,12 @@ jobs:
           path: ./fpyi_docker.tar
       # Build fletch image
       - name: "Build Fletch Image"
-          run: |
+        run: |
             chmod +x build_fletch.sh
             ./build_fletch.sh
 
       - name: "Archive Fletch Docker Image"
-          run: docker save fletch_py37:latest | pv > fpyi_docker.tar
+        run: docker save fletch_py37:latest | pv > fpyi_docker.tar
 
       - name: "Store Fletch Docker Image"
         uses: actions/upload-artifact@v2
@@ -60,45 +60,45 @@ jobs:
 
       # Build kwiver wheel image
       - name: "Build Kwiver Wheel Image"
-          env:
+        env:
             DOCKERHUB_USERNAME: ${{ secrets.dockerhub_username }}
-          run: |
+        run: |
             docker build --force-rm -t "$DOCKERHUB_USERNAME"/kwiver_py37 -f Dockerfile.kwiver .
 
       - name: "Archive Kwiver Docker Image"
-          env:
+        env:
             DOCKERHUB_USERNAME: ${{ secrets.dockerhub_username }}
-          run: docker save "$DOCKERHUB_USERNAME"/kwiver_py37:latest | pv > kpyi_docker.tar
+        run: docker save "$DOCKERHUB_USERNAME"/kwiver_py37:latest | pv > kpyi_docker.tar
 
       - name: "Store Kwiver Docker Image"
-          uses: actions/upload-artifact@v2
-          with:
-            path: ./kpyi_docker.tar
+        uses: actions/upload-artifact@v2
+        with:
+          path: ./kpyi_docker.tar
 
       - name: "Upload Kwiver Docker Image"
-          env:
+        env:
             DOCKERHUB_USERNAME: ${{ secrets.dockerhub_username }}
             DOCKERHUB_TOKEN: ${{ secrets.dockerhub_token }}
-          run: |
+        run: |
             docker login -u "$DOCKERHUB_USERNAME" -p "$DOCKERHUB_TOKEN"
             docker push "$DOCKERHUB_USERNAME"/kwiver_py37:latest
 
       - name: "Gather Kwiver Wheel"
-          run: |
+        run: |
             chmod +x run_docker.sh
             ./run_docker.sh
 
       - name: "Checkout Pages"
-          run: |
+        run: |
             git checkout -f -B pages --track origin/pages
 
       - name: "Upload Wheels"
-          run: |
+        run: |
             cd pages
             git add *.whl && git add index.html && git commit -m"Upload Wheel" && git push -f
 
       - name: "tar wheels for archiving"
-          run: |
+        run: |
             tar -cvzf kwiver-wheels.tar ./pages
 
       - name: Store Kwiver Wheels

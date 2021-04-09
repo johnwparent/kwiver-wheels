@@ -27,8 +27,8 @@ jobs:
 
       - name: "Install pv"
         run: |
-            sudo apt-get update
-            sudo apt-get install -y pv
+          sudo apt-get update
+          sudo apt-get install -y pv
       - name: "Setup Docker"
         run: |
             docker pull quay.io/pypa/manylinux2014_x86_64:latest

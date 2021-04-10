@@ -24,9 +24,6 @@ jobs:
           python-version: '3.7'
           architecture: 'x64'
 
-      - name: test
-        run: echo $PATH
-
       - name: "Install pv"
         run: |
           sudo apt-get update

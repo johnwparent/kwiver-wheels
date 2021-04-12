@@ -57,6 +57,9 @@ jobs:
         with:
           path: ./fpyi_docker.tar
 
+      - name: Cleanup TAR'd Fletch Image
+        run: rm -f ./fpyi_docker.tar
+
       # Build kwiver wheel image
       - name: "Build Kwiver Wheel Image"
         env:
@@ -73,6 +76,9 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           path: ./kpyi_docker.tar
+
+      - name: CLeanup TAR'd Kwiver Image
+        run: rm -f ./kpyi_docker.tar
 
       - name: "Upload Kwiver Docker Image"
         env:

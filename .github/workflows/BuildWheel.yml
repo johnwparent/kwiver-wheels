@@ -89,6 +89,8 @@ jobs:
             docker push "$DOCKERHUB_USERNAME"/kwiver_py37:latest
 
       - name: "Gather Kwiver Wheel"
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.dockerhub_username}}
         run: |
             chmod +x run_docker.sh
             ./run_docker.sh

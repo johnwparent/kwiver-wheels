@@ -67,19 +67,6 @@ jobs:
         run: |
             docker build --force-rm -t "$DOCKERHUB_USERNAME"/kwiver_py37 -f Dockerfile.kwiver .
 
-      - name: "Archive Kwiver Docker Image"
-        env:
-            DOCKERHUB_USERNAME: ${{ secrets.dockerhub_username }}
-        run: docker save "$DOCKERHUB_USERNAME"/kwiver_py37:latest | pv > kpyi_docker.tar
-
-      - name: "Store Kwiver Docker Image"
-        uses: actions/upload-artifact@v2
-        with:
-          path: ./kpyi_docker.tar
-
-      - name: CLeanup TAR'd Kwiver Image
-        run: rm -f ./kpyi_docker.tar
-
       - name: "Upload Kwiver Docker Image"
         env:
             DOCKERHUB_USERNAME: ${{ secrets.dockerhub_username }}

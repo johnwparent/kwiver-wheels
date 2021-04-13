@@ -57,9 +57,6 @@ jobs:
         with:
           path: ./fpyi_docker.tar
 
-      - name: Cleanup TAR'd Fletch Image
-        run: rm -f ./fpyi_docker.tar
-
       # Build kwiver wheel image
       - name: "Build Kwiver Wheel Image"
         env:

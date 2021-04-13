@@ -9,5 +9,5 @@ rm -f wheels/*.whl
 imname=$(docker create "$DOCKERHUB_USERNAME"/kwiver_py37)
 docker cp $imname:/kwiver/python/dist/ wheels
 mkdir pages
-cp --preserve=timestamps wheels/ pages/
+cp --preserve=timestamps wheels/dist pages/
 python3 mkpypa.py

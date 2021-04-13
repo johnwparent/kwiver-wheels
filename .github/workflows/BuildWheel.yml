@@ -81,6 +81,7 @@ jobs:
 
       - name: "Checkout Pages"
         run: |
+            git fetch --all
             git checkout -f -B pages --track origin/pages
 
       - name: "Upload Wheels"

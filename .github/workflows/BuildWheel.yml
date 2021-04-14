@@ -87,6 +87,8 @@ jobs:
       - name: "Upload Wheels"
         run: |
             cd pages
+            git config --local user.email "action@github.com"
+            git config --local user.name "Github Actions from commit ${{ github.sha }}"
             git add *.whl && git add index.html && git commit -m"Upload Wheel" && git push -f
 
       - name: "tar wheels for archiving"

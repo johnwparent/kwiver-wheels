@@ -4,8 +4,9 @@ on:
   push:
     branches:
       - master
-
-
+      - dev/*
+  pull-request:
+      - master
 
 jobs:
   build-wheel:

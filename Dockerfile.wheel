@@ -61,7 +61,7 @@ RUN git clone -b fix-static-zlib-target --single-branch https://github.com/Kitwa
             -Dfletch_ENABLE_cppzmq:BOOL=ON \
     && make
 
-RUN git clone -b dev/fix-skbuild --single-branch https://github.com/johnwparent/kwiver.git
+RUN git clone -b pylog --single-branch https://github.com/johnwparent/kwiver.git
 
 RUN pip3 install --upgrade pip \
     && hash -r \

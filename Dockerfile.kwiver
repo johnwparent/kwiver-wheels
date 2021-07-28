@@ -1,7 +1,7 @@
 FROM fletch_py37
 ARG WHEEL_PY_VERSION=cp37-cp37m
 
-RUN git clone -b dev/fix-skbuild --single-branch https://github.com/johnwparent/kwiver.git
+RUN git clone -b pylog --single-branch https://github.com/johnwparent/kwiver.git
 
 RUN pip3 install --upgrade pip \
     && hash -r \

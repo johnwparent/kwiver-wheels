@@ -11,7 +11,7 @@ on:
 
 jobs:
   build-fletch-image:
-    name: Wheel Builder
+    name: Fletch Builder
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -64,6 +64,8 @@ jobs:
           path: ./fletch-{{ matrix.base-image }}-py{{ matrix.py-major }}-{{ matrix.cuda }}.tar
 
   build-kwiver-image:
+    name: Kwiver Builder
+    runs-on: ubuntu-latest
     needs:
       build-fletch-image
     steps:

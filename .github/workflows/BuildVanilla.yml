@@ -42,11 +42,11 @@ jobs:
         run: |
           chmod +x set_fletch_image.sh
           ./set_fletch_image.sh
-          docker build -t kitware/fletch:latest-{{ matrix.base-image }}-py{{ matrix.py-major }}-{{ env.from }} \
+          docker build -t kitware/fletch:latest-${{ matrix.base-image }}-py${{ matrix.py-major }}-${{ env.from }} \
           -f fletch/cpp/Dockerfile \
-          --build-arg BASE_IMAGE={{ env.from-image}} \
-          --build-arg PY_MAJOR_VERSION={{ matrix.py-major }} \
-          --build-arg ENABLE_CUDA={{ matrix.cuda }} \
+          --build-arg BASE_IMAGE=${{ env.from-image}} \
+          --build-arg PY_MAJOR_VERSION=${{ matrix.py-major }} \
+          --build-arg ENABLE_CUDA=${{ matrix.cuda }} \
           .
         env:
           BASE_IMAGE: ${{ matrix.base-image }}
@@ -54,27 +54,30 @@ jobs:
       - name: Archive Fletch Docker Image
         run: |
           ./set_fletch_image.sh
-          docker save kitware/fletch:latest-{{ matrix.base-image }}-py{{ matrix.py-major }}-{{ env.from }} | pv > fletch-{{ matrix.base-image }}-py{{ matrix.py-major }}-{{ matrix.cuda }}.tar
+          docker save kitware/fletch:latest-${{ matrix.base-image }}-py${{ matrix.py-major }}-${{ env.from }} | pv > fletch-${{ matrix.base-image }}-py${{ matrix.py-major }}-${{ matrix.cuda }}.tar
         env:
           BASE_IMAGE: ${{ matrix.base-image }}
           CUDA: ${{ matrix.cuda }}
       - name: Store Fletch Docker Image
         uses: actions/upload-artifact@v2
         with:
-          path: ./fletch-{{ matrix.base-image }}-py{{ matrix.py-major }}-{{ matrix.cuda }}.tar
+          path: ./fletch-${{ matrix.base-image }}-py${{ matrix.py-major }}-${{ matrix.cuda }}.tar
 
   build-kwiver-image:
     name: Kwiver Builder
     runs-on: ubuntu-latest
     needs:
       build-fletch-image
+    strategy:
+      matrix:
+        tag: ["latest","1.6.0"]
     steps:
       - name: Build Kwiver Image
         run: |
-          docker build -t kitware/kwiver:{{}} -f kwiver/cpp/Dockerfile .
+          docker build -t kitware/kwiver:${{ matrix.tag }} -f kwiver/cpp/Dockerfile .
       - name: Archive Kwiver Docker Image
         run: |
-          docker save kitware/kwiver:{{}} | pv > kwiver.tar
+          docker save kitware/kwiver:${{ matrix.tag }} | pv > kwiver.tar
       - name: Store Kwiver Docker Image
         uses: actions/upload-artifact@v2
         with:

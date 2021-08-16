@@ -43,7 +43,7 @@ jobs:
           chmod +x set_fletch_image.sh
           . set_fletch_image.sh
           docker build -t kitware/fletch:latest-$arch-py${{ matrix.py-major }}$from \
-          -f $(pwd)/fletch/cpp/Dockerfile.fletch \
+          -f $(pwd)/fletch_docker/cpp/Dockerfile.fletch \
           --build-arg BASE_IMAGE=${{ env.from-image}} \
           --build-arg PY_MAJOR_VERSION=${{ matrix.py-major }} \
           --build-arg ENABLE_CUDA=${{ matrix.cuda }} \
@@ -74,7 +74,7 @@ jobs:
     steps:
       - name: Build Kwiver Image
         run: |
-          docker build -t kitware/kwiver:${{ matrix.tag }} -f kwiver/cpp/Dockerfile.kwiver .
+          docker build -t kitware/kwiver:${{ matrix.tag }} -f kwiver_docker/cpp/Dockerfile.kwiver .
       - name: Archive Kwiver Docker Image
         run: |
           docker save kitware/kwiver:${{ matrix.tag }} | pv > kwiver.tar

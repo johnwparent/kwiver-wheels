@@ -34,10 +34,10 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y pv
       - name: Checkout Fletch
-          uses: actions/checkout@v2
-          with:
-            repository: kitware/fletch
-            path: fletch
+        uses: actions/checkout@v2
+        with:
+          repository: kitware/fletch
+          path: fletch
       - name: Build Fletch Image
         run: |
           chmod +x set_fletch_image.sh

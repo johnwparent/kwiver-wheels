@@ -44,7 +44,7 @@ jobs:
           . set_fletch_image.sh
           docker build -t kitware/fletch:latest-$arch-py${{ matrix.py-major }}$from \
           -f $(pwd)/fletch_docker/cpp/Dockerfile.fletch \
-          --build-arg BASE_IMAGE=${{ env.from-image}} \
+          --build-arg BASE_IMAGE=$from_image \
           --build-arg PY_MAJOR_VERSION=${{ matrix.py-major }} \
           --build-arg ENABLE_CUDA=${{ matrix.cuda }} \
           .

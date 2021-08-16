@@ -1,0 +1,79 @@
+name: BuildVanilla
+
+on:
+  push:
+    branches:
+      - master
+      - dev/*
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build-fletch-image:
+    name: Wheel Builder
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    strategy:
+      matrix:
+        base-image: ["ubuntu:18.04","ubuntu:16.04"]
+        py-major: [2, 3]
+        cuda: ["ON", "OFF"]
+    steps:
+      - name: Checkout Current Repo
+        uses: actions/checkout@v2
+      - name: Setup python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.7'
+          architecture: 'x64'
+      - name: Install pv
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pv
+      - name: Checkout Fletch
+          uses: actions/checkout@v2
+          with:
+            repository: kitware/fletch
+            path: fletch
+      - name: Build Fletch Image
+        run: |
+          chmod +x set_fletch_image.sh
+          ./set_fletch_image.sh
+          docker build -t kitware/fletch:latest-{{ matrix.base-image }}-py{{ matrix.py-major }}-{{ env.from }} \
+          -f fletch/cpp/Dockerfile \
+          --build-arg BASE_IMAGE={{ env.from-image}} \
+          --build-arg PY_MAJOR_VERSION={{ matrix.py-major }} \
+          --build-arg ENABLE_CUDA={{ matrix.cuda }} \
+          .
+        env:
+          BASE_IMAGE: ${{ matrix.base-image }}
+          CUDA: ${{ matrix.cuda }}
+      - name: Archive Fletch Docker Image
+        run: |
+          ./set_fletch_image.sh
+          docker save kitware/fletch:latest-{{ matrix.base-image }}-py{{ matrix.py-major }}-{{ env.from }} | pv > fletch-{{ matrix.base-image }}-py{{ matrix.py-major }}-{{ matrix.cuda }}.tar
+        env:
+          BASE_IMAGE: ${{ matrix.base-image }}
+          CUDA: ${{ matrix.cuda }}
+      - name: Store Fletch Docker Image
+        uses: actions/upload-artifact@v2
+        with:
+          path: ./fletch-{{ matrix.base-image }}-py{{ matrix.py-major }}-{{ matrix.cuda }}.tar
+
+  build-kwiver-image:
+    needs:
+      build-fletch-image
+    steps:
+      - name: Build Kwiver Image
+        run: |
+          docker build -t kitware/kwiver:{{}} -f kwiver/cpp/Dockerfile .
+      - name: Archive Kwiver Docker Image
+        run: |
+          docker save kitware/kwiver:{{}} | pv > kwiver.tar
+      - name: Store Kwiver Docker Image
+        uses: actions/upload-artifact@v2
+        with:
+          path: ./kwiver.tar

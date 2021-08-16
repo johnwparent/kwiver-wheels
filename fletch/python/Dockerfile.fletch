@@ -36,7 +36,7 @@ RUN wget -O python-${PYTHON_VERSION}.tgz \
 	&& make install
 
 
-RUN git clone -b dev/fpic-libavcodec --single-branch https://github.com/johnwparent/fletch.git \
+RUN git clone https://github.com/kitware/fletch.git \
     && cd /fletch \
     && mkdir -p build/release \
     && cd build/release \

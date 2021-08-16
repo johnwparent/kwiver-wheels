@@ -64,7 +64,7 @@ jobs:
         env:
             DOCKERHUB_USERNAME: ${{ secrets.dockerhub_username }}
         run: |
-            docker build --force-rm -t "$DOCKERHUB_USERNAME"/kwiver_py37 -f Dockerfile.kwiver .
+            docker build --force-rm -t "$DOCKERHUB_USERNAME"/kwiver_py37 -f kwiver/python/Dockerfile.kwiver .
 
       - name: "Upload Kwiver Docker Image"
         env:

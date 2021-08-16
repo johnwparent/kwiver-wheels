@@ -42,7 +42,7 @@ jobs:
         run: |
           chmod +x set_fletch_image.sh
           ./set_fletch_image.sh
-          docker build -t kitware/fletch:latest-${{ matrix.base-image }}-py${{ matrix.py-major }}-${{ env.from }} \
+          docker build -t kitware/fletch:latest-${{ matrix.base-image }}-py${{ matrix.py-major }}$from \
           -f fletch/cpp/Dockerfile \
           --build-arg BASE_IMAGE=${{ env.from-image}} \
           --build-arg PY_MAJOR_VERSION=${{ matrix.py-major }} \

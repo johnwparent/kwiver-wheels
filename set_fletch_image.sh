@@ -13,7 +13,7 @@ if [ $CUDA == "ON" ]; then
     else
         from_image=$cuda18
     fi
-    from="cuda10.0-cudnn7-devel"
+    from="-cuda10.0-cudnn7-devel"
 else
     from_image=$BASE_IMAGE
     from=""

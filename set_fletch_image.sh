@@ -19,5 +19,6 @@ else
     from=""
 fi
 
+export arch
 export from_image
 export from

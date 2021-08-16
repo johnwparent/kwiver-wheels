@@ -41,8 +41,8 @@ jobs:
       - name: Build Fletch Image
         run: |
           chmod +x set_fletch_image.sh
-          ./set_fletch_image.sh
-          docker build -t kitware/fletch:latest-${{ matrix.base-image }}-py${{ matrix.py-major }}$from \
+          . set_fletch_image.sh
+          docker build -t kitware/fletch:latest-$arch-py${{ matrix.py-major }}$from \
           -f fletch/cpp/Dockerfile \
           --build-arg BASE_IMAGE=${{ env.from-image}} \
           --build-arg PY_MAJOR_VERSION=${{ matrix.py-major }} \
@@ -53,7 +53,7 @@ jobs:
           CUDA: ${{ matrix.cuda }}
       - name: Archive Fletch Docker Image
         run: |
-          ./set_fletch_image.sh
+          . set_fletch_image.sh
           docker save kitware/fletch:latest-${{ matrix.base-image }}-py${{ matrix.py-major }}-${{ env.from }} | pv > fletch-${{ matrix.base-image }}-py${{ matrix.py-major }}-${{ matrix.cuda }}.tar
         env:
           BASE_IMAGE: ${{ matrix.base-image }}

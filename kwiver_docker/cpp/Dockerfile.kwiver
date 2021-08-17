@@ -15,7 +15,7 @@ RUN apt-get update \
 # Build KWIVER
 #
 
-COPY . /kwiver
+COPY ./kwiver /kwiver
 RUN cd /kwiver \
   && mkdir build \
   && cd build \

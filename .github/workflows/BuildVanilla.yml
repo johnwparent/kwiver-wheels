@@ -62,7 +62,7 @@ jobs:
       - name: Store Fletch Docker Image
         uses: actions/upload-artifact@v2
         with:
-          path: ./fletch-$arch-py${{ matrix.py-major }}$from.tar
+          path: ./*.tar
 
   build-kwiver-image:
     name: Kwiver Builder
@@ -73,6 +73,22 @@ jobs:
       matrix:
         tag: ["latest","1.6.0"]
     steps:
+      - name: Checkout Current Repo
+        uses: actions/checkout@v2
+      - name: Setup python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.7'
+          architecture: 'x64'
+      - name: Install pv
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pv
+      - name: Checkout Kwiver
+        uses: actions/checkout@v2
+        with:
+          repository: kitware/kwiver
+          path: fletch
       - name: Build Kwiver Image
         run: |
           docker build -t kitware/kwiver:${{ matrix.tag }} -f kwiver_docker/cpp/Dockerfile.kwiver .

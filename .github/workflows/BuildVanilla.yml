@@ -55,14 +55,14 @@ jobs:
       - name: Archive Fletch Docker Image
         run: |
           . set_fletch_image.sh
-          docker save kitware/fletch:latest-${{ matrix.base-image }}-py${{ matrix.py-major }}-${{ env.from }} | pv > fletch-${{ matrix.base-image }}-py${{ matrix.py-major }}-${{ matrix.cuda }}.tar
+          docker save kitware/fletch:latest-$arch-py${{ matrix.py-major }}$from | pv > fletch-$arch-py${{ matrix.py-major }}$from.tar
         env:
           BASE_IMAGE: ${{ matrix.base-image }}
           CUDA: ${{ matrix.cuda }}
       - name: Store Fletch Docker Image
         uses: actions/upload-artifact@v2
         with:
-          path: ./fletch-${{ matrix.base-image }}-py${{ matrix.py-major }}-${{ matrix.cuda }}.tar
+          path: ./fletch-$arch-py${{ matrix.py-major }}$from.tar
 
   build-kwiver-image:
     name: Kwiver Builder

@@ -5,5 +5,5 @@ if [ -f "$FILE" ]; then
     docker load < $FILE
 else
     # docker generate from scratch
-    docker build --force-rm -t fletch_py37 -f fletch/python/Dockerfile.fletch .
+    docker build --force-rm -t fletch_py37 -f fletch_docker/python/Dockerfile.fletch .
 fi
